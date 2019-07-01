@@ -807,7 +807,7 @@ if(NOT FREECAD_LIBPACK_USE OR FREECAD_LIBPACK_CHECKFILE_CLBUNDLER)
 
         else(NOT FREECAD_USE_EXTERNAL_SMESH)
             find_package(SMESH CONFIG)
-            set (SMESH_INCLUDE_DIR ${SMESH_INCLUDE_PATH})
+            set(SMESH_INCLUDE_DIR ${SMESH_INCLUDE_PATH})
             set(EXTERNAL_SMESH_LIBS ${SMESH_LIBRARIES})
             if(NOT SMESH_FOUND)
                 message(ERROR "================\n"
@@ -1310,7 +1310,7 @@ message(STATUS "OCC:                 ${OCC_VERSION_STRING} [${OCC_LIBRARIES}]")
 
 if(BUILD_SMESH)
     if(FREECAD_USE_EXTERNAL_SMESH)
-        message(STATUS "SMESH:               ${SMESH_VERSION}")
+        message(STATUS "SMESH:               ${SMESH_VERSION_MAJOR}.${SMESH_VERSION_MINOR}.${SMESH_VERSION_PATCH}.${SMESH_VERSION_TWEAK} [${SMESH_INCLUDE_DIR}]")
     else(FREECAD_USE_EXTERNAL_SMESH)
         message(STATUS "SMESH:               build internal")
         message(STATUS " MEDFile:            [${MEDFILE_LIBRARIES}] [${MEDFILE_INCLUDE_DIRS}]")
