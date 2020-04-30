@@ -524,13 +524,31 @@ class _TaskPanel:
 
         if len(plt.get_fignums()) > 0:
             plt.close()
-        plt.hist(res_values, bins=50, alpha=0.5, facecolor="blue")
-        plt.xlabel(res_unit)
-        plt.title("Histogram of {}".format(res_type))
-        plt.ylabel("Nodes")
-        plt.grid(True)
+        f, (a0, a1) = plt.subplots(2, 1, gridspec_kw={'height_ratios': [1, 5]}, sharex=True)
+        f.suptitle("Nodal Statistics for {}".format(res_type))
+
+        a0.boxplot(res_values, vert=False, widths=0.75)
+        a0.axis('off')
+        # Allow for text to be always visible
+        a0.set_ylim(0.5, 1.7)
+        a0.text(0.5, 1, 'n={}, mean={:.5g}{unit}, sd={:.5g}{unit}'.format(len(res_values),
+                                                         np.mean(res_values),
+                                                         np.sqrt(np.var(res_values)), unit=res_unit),
+                horizontalalignment='center',
+                verticalalignment='center',
+                transform = a0.transAxes)
+        # Not sure why the histogram is drawn behind the grid (should IMO not be the case)
+        # But zorder=2 fixes that issue
+        a1.hist(res_values, bins=50, facecolor="blue", zorder=2)
+        a1.grid(True)
+        a1.set_xlabel("{} [{}]".format(res_type, res_unit))
+        a1.set_ylabel("Nodes [-]")
+
+        f.tight_layout(rect=[0, 0, 1, 0.95])
+
         fig_manager = plt.get_current_fig_manager()
-        fig_manager.window.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)    # stay ontop
+        # Draw as a dialog window (floats by default) and stay on top
+        fig_manager.window.setWindowFlags(QtCore.Qt.Dialog | QtCore.Qt.WindowStaysOnTopHint)
 
     def update_colors_stats(self, res_values, res_unit, minm, maxm):
         QApplication.setOverrideCursor(Qt.WaitCursor)
