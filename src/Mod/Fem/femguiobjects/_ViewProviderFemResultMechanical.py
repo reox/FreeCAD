@@ -531,9 +531,11 @@ class _TaskPanel:
         a0.axis('off')
         # Allow for text to be always visible
         a0.set_ylim(0.5, 1.7)
-        a0.text(0.5, 1, 'n={}, mean={:.5g}{unit}, sd={:.5g}{unit}'.format(len(res_values),
-                                                         np.mean(res_values),
-                                                         np.sqrt(np.var(res_values)), unit=res_unit),
+        a0.text(0.5, 1, 'n={}, mean={:.5g} {unit}, '
+                        'sd={:.5g} {unit}'.format(len(res_values),
+                                                  np.mean(res_values),
+                                                  np.sqrt(np.var(res_values)),
+                                                  unit=res_unit),
                 horizontalalignment='center',
                 verticalalignment='center',
                 transform = a0.transAxes)
@@ -544,6 +546,7 @@ class _TaskPanel:
         a1.set_xlabel("{} [{}]".format(res_type, res_unit))
         a1.set_ylabel("Nodes [-]")
 
+        # Leave space for suptitle
         f.tight_layout(rect=[0, 0, 1, 0.95])
 
         fig_manager = plt.get_current_fig_manager()
