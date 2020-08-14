@@ -406,7 +406,7 @@ class _TaskPanel:
 
     def show_histogram_clicked(self):
         if len(plt.get_fignums()) > 0:
-            plt.show()
+            plt.show(block=False)
         else:
             QtGui.QMessageBox.information(
                 None,
@@ -539,9 +539,7 @@ class _TaskPanel:
                 horizontalalignment='center',
                 verticalalignment='center',
                 transform = a0.transAxes)
-        # Not sure why the histogram is drawn behind the grid (should IMO not be the case)
-        # But zorder=2 fixes that issue
-        a1.hist(res_values, bins=50, facecolor="blue", zorder=2)
+        a1.hist(res_values, bins=50, facecolor="blue")
         a1.grid(True)
         a1.set_xlabel("{} [{}]".format(res_type, res_unit))
         a1.set_ylabel("Nodes [-]")
